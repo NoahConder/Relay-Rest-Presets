@@ -55,7 +55,7 @@ def presets_handle():
     headers = {
         "Accept": "application/json",
         "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Basic MWY2ZmFhYTgtMDYxNC00NjMwLWE0NDktN2MwOGI2MDJmZjVlOlBUMmQ0NGQ2OGNiYzZiYTA4MGVlM2JkNjI5MDYzODhhODVjYTFlMmM4OGIxYjYyZjlj"
+        "Authorization": "THIS WILL NEED TO BE ENTER MANUALLY CURRENTLY"
     }
     print(name)
     print(laml_box)

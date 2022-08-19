@@ -69,7 +69,7 @@ app.post("/presets_handle",  function (req, res) {
                   url: `https://noah-space.signalwire.com/api/relay/rest/phone_numbers?filter_number=${number}`,
                   headers: {
                     Accept: 'application/json',
-                    Authorization: 'Basic MWY2ZmFhYTgtMDYxNC00NjMwLWE0NDktN2MwOGI2MDJmZjVlOlBUMmQ0NGQ2OGNiYzZiYTA4MGVlM2JkNjI5MDYzODhhODVjYTFlMmM4OGIxYjYyZjlj'
+                    Authorization: 'Basic TEMP REMOVE'
                   }
                 };
             axios
@@ -88,7 +88,7 @@ app.post("/presets_handle",  function (req, res) {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    Authorization: 'Basic MWY2ZmFhYTgtMDYxNC00NjMwLWE0NDktN2MwOGI2MDJmZjVlOlBUMmQ0NGQ2OGNiYzZiYTA4MGVlM2JkNjI5MDYzODhhODVjYTFlMmM4OGIxYjYyZjlj'
+                    Authorization: 'Basic TEMP REMOVE'
                 },
                 data: encodedParams,
             };
@@ -111,7 +111,7 @@ app.post("/presets_handle",  function (req, res) {
                       headers: {
                         Accept: 'application/json',
                         'Content-Type': 'application/json',
-                        Authorization: 'Basic MWY2ZmFhYTgtMDYxNC00NjMwLWE0NDktN2MwOGI2MDJmZjVlOlBUMmQ0NGQ2OGNiYzZiYTA4MGVlM2JkNjI5MDYzODhhODVjYTFlMmM4OGIxYjYyZjlj'
+                        Authorization: 'Basic TEMP REMOVE'
                       },
                       data: {
                         call_receive_mode: `${voice_mode}`,

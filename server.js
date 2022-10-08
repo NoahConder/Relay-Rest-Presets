@@ -1,31 +1,35 @@
 const express = require('express')
 const app = express();
-const path = require('path');
 const multer = require("multer");
 const bodyParser = require('body-parser');
 let upload = multer();
-const axios = require("axios").default;
+const axios = require("axios");
 const { URLSearchParams } = require('url');
-const encodedParams = new URLSearchParams();~
+const encodedParams = new URLSearchParams();
+
+require('dotenv').config()
+// Import our .ENV credentials
+const project = process.env.SIGNALWIRE_PROJECT;
+const token = process.env.SIGNALWIRE_TOKEN;
+const space = process.env.SIGNALWIRE_SPACE;
+
+const auth = Buffer.from(project + ":" + token).toString('base64')
 
 
+console.log(auth)
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(bodyParser.json());
 
 app.engine('html', require('ejs').renderFile);
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'))
 
-app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, 'public', 'html')));
+app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, 'public', 'image')));
-
-app.use(express.static(path.join(__dirname, 'public', 'css')));
-
-app.use(express.static(path.join(__dirname, 'public', 'js')));
+app.engine('html', require('ejs').renderFile);
 
 app.use(upload.array());
 
@@ -66,29 +70,28 @@ app.post("/presets_handle",  function (req, res) {
             const response_number = {
 
                   method: 'GET',
-                  url: `https://noah-space.signalwire.com/api/relay/rest/phone_numbers?filter_number=${number}`,
+                  url: `https://${space}/api/relay/rest/phone_numbers?filter_number=${number}`,
                   headers: {
                     Accept: 'application/json',
-                    Authorization: 'Basic TEMP REMOVE'
+                    Authorization: `Basic ${auth}`
                   }
                 };
-            axios
-              .request(response_number)
+            axios(response_number)
               .then(function (response) {
                   let number_id = response.data.data[0].id
-                  ///console.log(number_id)
-                  ///console.log(box)
-                  ///console.log(name)
+                  console.log(number_id)
+                  console.log(box)
+                  console.log(name)
             encodedParams.set('Name', `${name}`);
             encodedParams.set('Contents', `${box}`);
 
             const options = {
                 method: 'POST',
-                url: 'https://noah-space.signalwire.com/api/laml/2010-04-01/Accounts/sid/LamlBins',
+                url: `https://${space}/api/laml/2010-04-01/Accounts/sid/LamlBins`,
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    Authorization: 'Basic TEMP REMOVE'
+                    Authorization: `Basic ${auth}`
                 },
                 data: encodedParams,
             };
@@ -107,11 +110,11 @@ app.post("/presets_handle",  function (req, res) {
                     }
                     const apply_phone = {
                       method: 'PUT',
-                      url: `https://noah-space.signalwire.com/api/relay/rest/phone_numbers/${number_id}`,
+                      url: `https://${space}/api/relay/rest/phone_numbers/${number_id}`,
                       headers: {
                         Accept: 'application/json',
                         'Content-Type': 'application/json',
-                        Authorization: 'Basic TEMP REMOVE'
+                        Authorization: `Basic ${auth}`
                       },
                       data: {
                         call_receive_mode: `${voice_mode}`,
@@ -119,8 +122,7 @@ app.post("/presets_handle",  function (req, res) {
                         message_request_url: `${message_url}`
                       }
                     };
-                    axios
-                      .request(apply_phone)
+                    axios.request(apply_phone)
                       .then(function (response_applied) {
                         res.render(__dirname+"/public/html/sent.ejs",{'bin_url':bin_url});
                         console.log(response_applied.data);

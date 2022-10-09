@@ -16,6 +16,7 @@ const space = process.env.SIGNALWIRE_SPACE;
 const auth = Buffer.from(project + ":" + token).toString("base64");
 
 console.log(auth);
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(bodyParser.json());
@@ -131,6 +132,25 @@ app.post("/presets_handle", function (req, res) {
           })
           .catch(function (error) {
             console.error(error);
+          });
+        let get_numbers = {
+          method: "get",
+          url: `https://${space}/api/relay/rest/phone_numbers`,
+          headers: {
+            Accept: "application/json",
+            Authorization: `Basic ${auth}`,
+          },
+        };
+        axios(get_numbers)
+          .then((response) => {
+            for (number in response.data.data[0 - 100]) {
+              // code block to be executed
+            }
+
+            console.log(response.data.data[0].number);
+          })
+          .catch((error) => {
+            console.log(error);
           });
       });
     }

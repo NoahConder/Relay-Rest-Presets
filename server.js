@@ -38,7 +38,27 @@ app.get("/", function (req, res) {
 });
 
 app.get("/presets", function (req, res) {
-  res.render(__dirname + "/public/html/presets.ejs");
+  let numbers = [];
+  let get_numbers = {
+    method: "get",
+    url: `https://${space}/api/relay/rest/phone_numbers`,
+    headers: {
+      Accept: "application/json",
+      Authorization: `Basic ${auth}`,
+    },
+  };
+  axios(get_numbers)
+    .then((response) => {
+      for (let i = 0; i < response.data.data.length; i++) {
+        console.log(response.data.data[i].number);
+        numbers.push(response.data.data[i].number);
+      }
+      console.log(numbers)
+      res.render(__dirname + "/public/html/presets.ejs", {numbers:numbers});
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
 app.post("/presets_handle", function (req, res) {
@@ -132,25 +152,6 @@ app.post("/presets_handle", function (req, res) {
           })
           .catch(function (error) {
             console.error(error);
-          });
-        let get_numbers = {
-          method: "get",
-          url: `https://${space}/api/relay/rest/phone_numbers`,
-          headers: {
-            Accept: "application/json",
-            Authorization: `Basic ${auth}`,
-          },
-        };
-        axios(get_numbers)
-          .then((response) => {
-            for (number in response.data.data[0 - 100]) {
-              // code block to be executed
-            }
-
-            console.log(response.data.data[0].number);
-          })
-          .catch((error) => {
-            console.log(error);
           });
       });
     }

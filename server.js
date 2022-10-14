@@ -53,8 +53,12 @@ app.get("/presets", function (req, res) {
         console.log(response.data.data[i].number);
         numbers.push(response.data.data[i].number);
       }
-      console.log(numbers)
-      res.render(__dirname + "/public/html/presets.ejs", {numbers:numbers});
+      let numbers_short = numbers.map((s) => s.slice(1));
+      numbers_short = numbers.map((s) => s.slice(2));
+      console.log(numbers_short);
+      res.render(__dirname + "/public/html/presets.ejs", {
+        numbers: numbers_short,
+      });
     })
     .catch((error) => {
       console.log(error);

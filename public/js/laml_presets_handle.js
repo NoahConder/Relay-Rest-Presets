@@ -9,12 +9,20 @@ $("#voice_forward").on("click", function () {
   selection_input.value = "voice";
   number = prompt(
     "Enter the phone number that it will be forwarded to.",
-    "815-100-4302"
+    "1234567890"
   );
   laml_box.textContent = `<?xml version=\"1.0\" encoding=\"UTF-8\"?>
     <Response>
         <Dial callerId='{{From}}'>${number}</Dial>
     </Response>`;
+  if (confirm("Do you want these forwarded calls to be recorded?") === true) {
+    laml_box.textContent = `<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+    <Response>
+        <Dial record="record-from-ringing" callerId='{{From}}'>${number}</Dial>
+    </Response>`;
+  } else {
+    alert("Okay, just a regular call forward!");
+  }
   if (number == null) {
     number = "123-456-7890";
     laml_box.textContent = `<?xml version=\"1.0\" encoding=\"UTF-8\"?>
